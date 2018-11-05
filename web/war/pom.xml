@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Flexmojos is a set of maven goals to allow maven users to compile,
+    optimize and test Flex SWF, Flex SWC, Air SWF and Air SWC.
+    Copyright (C) 2008-2012  Marvin Froeder <marvin@flexmojos.net>
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+--><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+    <artifactId>web</artifactId>
+    <groupId>web</groupId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+    <groupId>web</groupId>
+    <artifactId>war</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+
+    <!--
+        Properties used in the wrapper template, used by maven-war-plugin to
+        perform the filtering.
+    -->
+    <properties>
+        <swf>swf-1.0-SNAPSHOT</swf>
+        <width>100%</width>
+        <height>100%</height>
+        <title>My First Application</title>
+        <useBrowserHistory>true</useBrowserHistory>
+        <bgcolor>white</bgcolor>
+        <version_major>10</version_major>
+        <version_minor>2</version_minor>
+        <version_revision>0</version_revision>
+        <expressInstallSwf>expressInstall.swf</expressInstallSwf>
+        <application>application</application>
+    </properties>
+
+    <build>
+        <plugins>
+            <!--
+                Copy all the flex related resources (SWFs, RSLs, ...)
+            -->
+            <plugin>
+                <groupId>net.flexmojos.oss</groupId>
+                <artifactId>flexmojos-maven-plugin</artifactId>
+                <version>7.1.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>copy-flex-resources</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.flex</groupId>
+                        <artifactId>compiler</artifactId>
+                        <version>4.14.1</version>
+                        <type>pom</type>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <!--
+                Builds the war and copies the flex default wrapper template.
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <overlays>
+                        <overlay>
+                            <groupId>org.apache.flex.wrapper</groupId>
+                            <artifactId>swfobject</artifactId>
+                            <type>war</type>
+                            <filtered>true</filtered>
+                        </overlay>
+                    </overlays>
+                </configuration>
+            </plugin>
+            <!--
+                Make the war project "runnable" by running mvn jetty:run
+            -->
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>maven-jetty-plugin</artifactId>
+                <version>6.1.17</version>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>web</groupId>
+            <artifactId>swf</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <type>swf</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.flex.wrapper</groupId>
+            <artifactId>swfobject</artifactId>
+            <version>4.14.1</version>
+            <type>war</type>
+            <scope>runtime</scope>
+        </dependency>
+    </dependencies>
+
+</project>
