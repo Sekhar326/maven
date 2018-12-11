@@ -1,0 +1,23 @@
+<html 
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:crux="http://www.cruxframework.org/crux" 
+	xmlns:gwt="http://www.cruxframework.org/crux/gwt"
+	xmlns:widgets="http://www.cruxframework.org/crux/widgets"
+	xmlns:faces="http://www.cruxframework.org/crux/smart-faces">
+	
+	<head>
+		<title></title>
+	</head>
+	
+	<body>
+		<script type="text/javascript" src="mymodule/mymodule.nocache.js"></script>
+		
+		<crux:screen 
+			useView="*" 
+			smallViewport="user-scalable=no, width=320"
+			largeViewport="user-scalable=no, width=device-width, height=device-height"
+			useResource="xStandardResources,smartFacesResources"
+			height="100%"/>
+		
+	</body>
+</html>
